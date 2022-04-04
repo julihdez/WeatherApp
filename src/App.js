@@ -2,25 +2,26 @@ import React from 'react'
 import { BrowserRouter as Router,
     Routes, 
     Route } from 'react-router-dom'
-import WelcomePage from './pages/WelcomePage'
-import MainPage from './pages/MainPage'
-// import CityPage from './pages/CityPage'
-import { WeatherContext } from './WeatherContext'
+import WelcomePage from '../src/pages/WelcomePage'
+import ForecastPage from '../src/pages/ForecastPage'
+// import NotFoundPage from './pages/NotFoundPage'
+// import { store } from './WeatherContext'
+
 
 const App = () => {
     return (
-        <WeatherContext>
+    
             <Router>
                 <Routes>
                     <Route path="/" element={<WelcomePage />} />
 
-                    <Route path="/main*" element={<MainPage />}/>
-   
-                    {/* <Route path="/city/:countryCode/:city"  element={<CityPage />}/> */}
+                    <Route path="/clima" element={<ForecastPage />}/>
+
+                    {/* <Route path="*" element={<NotFoundPage />}/> */}
                                                       
                 </Routes>
             </Router>
-        </WeatherContext>
+        
     )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import spinner from "../../../Utils/Animations/spinner.json"
+import spinner from "../../../Utils/Animations/spiner.json"
 
 function Loading() {
 

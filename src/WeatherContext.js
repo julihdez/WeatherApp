@@ -1,68 +1,118 @@
-import React, { useReducer, useContext } from 'react'
+import React, { createContext, useReducer } from 'react';
 
 
-const WeatherStateContext = React.createContext()
-
-const WeatherDispatchContext = React.createContext()
-
-
-const initialValue = {
-    allWeather: {},
-    allChartData: {}, 
-    allForecastItemList: {}
+const actions = {
+	ALERT_ERROR: 'ALERT_ERROR',
+	ALERT_CLEAR: 'ALERT_CLEAR',
+    SET_LAT: 'SET_LAT',
+	SET_LON: 'SET_LON',
+	SET_CITY: 'SET_CITY',
+	SET_COUNTRY: 'SET_COUNTRY',
 }
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_ALL_WEATHER':
-            const weatherCity = action.payload
-            const newAllWeather = { ...state.allWeather, ...weatherCity }
-            return { ...state, allWeather: newAllWeather }
-        case 'SET_CHART_DATA':
-            const chartDataCity = action.payload 
-            const newAllChartData = { ...state.allChartData, ...chartDataCity }
-            return { ...state, allChartData: newAllChartData }
-        case 'SET_FORECAST_ITEM_LIST':
-            const forecastItemListCity = action.payload
-            const newAllForecastItemListCity = { ...state.allForecastItemList, ...forecastItemListCity }
-            return { ...state, allForecastItemList: newAllForecastItemListCity }
-        default:
-            return state 
-    }
+const initialState = {
+    selectedCityLat: {
+		latitud: null,	
+	},
+	selectedCityLon: {
+		longitud: null,
+	},
+	selectedCity: {
+		city:null,
+	},
+	selectedCountry: {
+		country:null
+	},
+	alert: {},
+	
+};
+
+
+const store = createContext(initialState);
+const { Provider } = store;
+
+let currentState = null;
+let dispatch = null;
+let dispatchToPromise = null;
+
+
+const StateProvider = ({ children }) => {
+	const [state, dispatch] = useReducer((state, action) => {
+		var newState = null;
+		switch (action.type) {
+			case actions.ALERT_ERROR:
+				newState = {
+					...state,
+					alert: {
+						type: 'danger',
+						message: action.payload
+					}
+				}
+				break;
+                case actions.ALERT_CLEAR:
+				newState = {
+					...state,
+					alert: {
+					}
+				}
+				break;
+			case actions.SET_LAT:
+				newState = {
+					...state,
+					selectedCityLat: {
+						latitud: action.payload,	
+					} 
+				}
+				break;	
+			case actions.SET_LON:
+				newState = {
+					...state,
+					selectedCityLon: {
+						longitud: action.payload,
+					} 
+				}
+				break;
+				case actions.SET_CITY:
+				newState = {
+					...state,
+					selectedCity: {
+						city: action.payload,
+					} 
+				}
+				break;
+				case actions.SET_COUNTRY:
+				newState = {
+					...state,
+					selectedCountry: {
+						country: action.payload
+					} 
+				}
+				break;
+			default:
+				throw new Error();
+		};
+		currentState = { ...newState };
+		return newState;
+	}, initialState);
+	setDispatcher(dispatch);
+	setDispatchToPromise(async (action) => {
+		dispatch(action);
+	});
+
+	return <Provider value={{ state, dispatch, dispatchToPromise }}>{children}</Provider>;
+};
+
+function setDispatcher(dispatch1) {
+	if (!dispatch) {
+		dispatch = dispatch1;
+	}
 }
 
-const WeatherContext = ({children}) => {
-    const [state, dispatch] = useReducer(reducer, initialValue)
-    return (
-        <WeatherDispatchContext.Provider value={dispatch}>
-            <WeatherStateContext.Provider value={state}>
-                {children}
-            </WeatherStateContext.Provider>
-        </WeatherDispatchContext.Provider>    )
+function setDispatchToPromise(dispatchToPromise1) {
+	if (!dispatchToPromise) {
+		dispatchToPromise = dispatchToPromise1;
+	}
 }
 
-const useWeatherDispatchContext = () => {
-    const dispatch = useContext(WeatherDispatchContext)
+export { store, StateProvider, actions, currentState, dispatch, dispatchToPromise }
 
-    if (!dispatch) {
-        throw Error("Must set dispatch provider")
-    }
-
-    return dispatch
-}
-
-const useWeatherStateContext = () => {
-    const state = useContext(WeatherStateContext)
-
-    if (!state) {
-        throw Error("Must set state provider")
-    }    
-
-    return state    
-}
-
-export { 
-    WeatherContext, 
-    useWeatherDispatchContext, 
-    useWeatherStateContext
-}

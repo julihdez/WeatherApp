@@ -58,7 +58,7 @@ input{
     padding-bottom: .4rem;
 }
 
-.search-card-producer-search{
+.main-card-producer-search{
     border-bottom: 1px solid var(--gris-5);
     color: var(--gris-3);
     font-size: var(--genetic-font-size);
@@ -69,7 +69,7 @@ input{
     cursor: pointer;
 }
 
-.search-card-producer-search p{
+.main-card-producer-search p{
    padding-bottom: 7px;
    margin:0;
 }
@@ -114,8 +114,8 @@ input{
 
 .form-select{
     border: none;
-    color:var(--gris-3);
-    width: 100%;
+    color:rgb(34, 53, 116);
+    width: 130px;
     box-sizing: border-box;
 
     appearance: none;
@@ -126,7 +126,7 @@ input{
     
     background: url('https://cdn1.iconfinder.com/data/icons/arrows-vol-1-4/24/dropdown_arrow-512.png');
     background-repeat: no-repeat;
-    background-size: 15px 15px;
+    background-size: 20px 20px;
     background-position: right;
     background-origin: content-box; 
     
@@ -141,9 +141,9 @@ input{
     margin: 0;
     margin-right: 2rem;
     font-weight: bold;
-    color: var(--gris-2);
+    color: rgb(34, 53, 116);
     font-family: var(--generic-font);
-    width: 50%;
+    width: 70%;
     font-size: var(--genetic-font-size);
 }
 
@@ -167,7 +167,7 @@ input{
     align-items: center;
     justify-content: center;
     border:none;
-    background-color : var(--verde-primario) ;
+    background-color : var(--gris-3) ;
     background-image: linear-gradient(to bottom, #B4B06C, #989A1D);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -216,10 +216,10 @@ input{
 
 
 /*
-* === SEARCH CARD COMPONENT ===
+* === MAIN CARD COMPONENT ===
 */
 
-.search-card-container{
+.main-card-container{
     width: var(--generic-width);
     height: fit-content;
     background-color:#ffff;
@@ -229,7 +229,7 @@ input{
 }
 
 
-.search-card-wrapper{
+.main-card-wrapper{
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -240,7 +240,7 @@ input{
     height: 800px;
 }
 
-.search-card-header{
+.main-card-header{
     display: flex;
     width: 100%;
     align-items: center;
@@ -249,25 +249,25 @@ input{
     margin-bottom: .6rem;
 }
 
-.search-card-header-left{
+/* .main-card-header-left{
     display: flex;
     width: 50%;
     justify-content: flex-start;
-}
+} */
 
-.search-card-header-left p{
+/* .main-card-header-left p{
     margin: 0;
     color: var(--rojo-2);
     font-weight: bold;
     font-size: var(--genetic-font-size);
-}
+} */
 
-.search-card-header-right{
+.main-card-header-right{
     position:absolute;
     right: 0;
 }
 
-.search-card-header-icon{
+.main-card-header-icon{
     color: var(--gris-3);
     cursor: pointer;
     transition: all .3s ease;
@@ -275,24 +275,24 @@ input{
     right: 0;
 }
 
-.search-card-header-icon:hover{
+.main-card-header-icon:hover{
     transform: scale(1.1);
     color:var(--gris-1)
 }
 
-.search-card-inner-wrap{
+.main-card-inner-wrap{
     padding-top: 1rem;
     margin-bottom:1rem;
 }
 
-.search-card-content-wrap{
+.main-card-content-wrap{
     display: flex;
     flex: 1;
     padding: .2rem;
     align-items: center;
 }
 
-.search-card-row{
+.main-card-row{
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -303,7 +303,7 @@ input{
     margin-right: 2rem;
 }
 
-.search-card-button-holder{
+.main-card-button-holder{
     display: flex;
     width: 100%;
     justify-content: flex-end;
@@ -311,11 +311,7 @@ input{
     height: fit-content;
 }
 
-.incidentes-form-container{
-    padding: 1rem;
-}
-
-.search-card-modal-buttons{
+.main-card-modal-buttons{
     display: flex;
     padding-top: 1rem;
     justify-content: space-around;
@@ -323,38 +319,38 @@ input{
     height: auto;
 }
 
-.search-card-modal-container h4{
+.main-card-modal-container h4{
     margin: 0;
 }
 
-.search-card-table-container{
+.main-card-table-container{
     padding: 2rem;
 }
 
-.search-card-table{
+.main-card-table{
     border-collapse:collapse;
     caption-side:bottom;
     width: 100%;
     padding: 2rem;
 }
 
-.search-card-table th,td{
+.main-card-table th,td{
     border-bottom: solid 1px var(--gris-4);
     padding: 10px;
 }
 
-.search-card-modal-search-input-form{
+.main-card-modal-search-input-form{
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding-top: .8rem;
 }
 
-.search-card-modal-search-input-form div{
+.main-card-modal-search-input-form div{
    margin-left: 1rem;
 }
 
-.search-modal-icon{
+.main-modal-icon{
     color: var(--gris-3);
     font-size: 16px;
     cursor: pointer;
@@ -369,7 +365,7 @@ input{
     transition: all .3s ease;
 }
 
-.search-modal-icon :hover{
+.main-modal-icon :hover{
     transform: scale(1.05);
 }
 /*
@@ -515,46 +511,7 @@ input{
     margin-top: .5rem;
   }
 
-.pagos-input-wrapper{
-    display: flex;
-    margin-bottom: 2rem;
-  }
 
-.pagos-input-wrapper-left{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 50%;
-}
-
-.pagos-input-wrapper-left span{
-   margin-right: 2rem;
-}
-
-.pagos-input-wrapper-right{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 50%;
-}
-
-.pagos-icon-container{
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    font-size: var(--genetic-font-size);
-    color: var(--gris-3);
-    cursor: pointer;
-    transition: all .3s ease;
-}
-
-.pagos-icon-container:hover{
-    transform: scale(1.02);
-    color:var(--gris-1)
-}
-
-.pagos-icon-container span{
-    margin-left: 0.5rem;
-}
 
 /*
 * ===  NUMBER INPUT ===
@@ -603,7 +560,7 @@ input[type=date] {
   opacity: 0;
 }
 
-.search-card-data-picker-label p{
+.main-card-data-picker-label p{
     margin: 0;
     font-size: var(--genetic-font-size);
     font-family:var(--generic-font);
@@ -611,7 +568,7 @@ input[type=date] {
     width: 100%;
     padding-left: 0.5rem
 }
-.search-card-data-picker-label{
+.main-card-data-picker-label{
     width: 100%;
     padding-left: 0.5rem;
 }
@@ -623,7 +580,7 @@ input[type=date] {
 }
 
 
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
 
     .incidentes-form-container{
         padding: 0;
@@ -646,4 +603,4 @@ input[type=date] {
         padding: 0;
     }
 
-}
+} */
