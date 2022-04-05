@@ -6,137 +6,87 @@ import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { IconContext } from 'react-icons'
 import IconState  from '../components/Icons/Icons'
-import {  SubmitButton } from "../components/index"
+import {  ForecastPageComponent, SubmitButton } from "../components/index"
 import { store, actions, currentState } from '../WeatherContext';
 
-const validValues = [
-    "clouds",
-    "clear",
-    "rain",
-    "snow",
-    "drizzle",
-    "thunderstorm"
-]
+function createData(
+    day,
+    min,
+    max,
+    icon,
+) {
+    return {
+    day,
+    min,
+    max,
+    icon,
+    };
+}
+
+
 
 function ForecastPage() {
+const [isLoading, setIsLoading] = useState(false);
+const [showTable, setShowTable] = useState(false);
+const [rows, setRows] = useState([]);
+const [currentPage, setCurrentPage] = useState(0);
+const [totalResultados, setTotalResultados] = useState();
 
-    const { state, dispatch } = useContext(store);
-    const iconContextSize = useMemo(() => ({ size:'6em'}), [])
-   
-    const [currentTemp, setCurrentTemp] = useState([]);
-    const [feelsLike, setFeelsLike] = useState([]);
-    const [humidity, setHumidity] = useState([]);
-    const [dataNextDays, setDataNextDays] = useState([]);
-    const [weatherState, setWeatherState] = useState([]);
-    const [city, setCity] = useState([]);
-    // const [lat, setLat] = useState([]);
-    // const [lon, setLon] = useState([]);
-    
-    //Trae resultados de One Call API y los asigna a states
-    useEffect(() => {
-        const lat = currentState.selectedCityLat.latitud;
-        const lon = currentState.selectedCityLon.longitud;
-        // const country = currentState.SelectedCity.country
-    
-    const paramsForecast = {
-        "lat": lat,
-        "lon": lon,
-        "exclude": "minutely,alerts",
-        "units":"metric",
-        "appid": "a79966a6ea68d0d7625eff5a328cc0bb",
+const handleSearchSubmit = (e) => {
+    console.log(e)
+    setTotalResultados(e.total);
+    const dataParaRows= e;
+    let rows = [];
+
+    dataParaRows.data.forEach((result) => {
+        rows.push(createData(
+            result.dt,
+            result.temp.min,
+            result.temp.max,
+            result.weather.main,
+        ));
     }
-       delegate.getForecast(paramsForecast).then(data => {
-            console.log(data)
-            let dataForecast = data;
-            
-            setCurrentTemp(dataForecast.current.temp);
-            setFeelsLike(dataForecast.current.feels_like);
-            setHumidity(dataForecast.current.humidity);
-            setDataNextDays(dataForecast.daily);
-            setWeatherState(dataForecast.current.weather[0].main)
-            setCity(currentState.selectedCity.city)
+    )
 
-        }).catch(error => {
-            dispatch({ type: actions.ALERT_ERROR, payload: error });
-            
-        });
+        setRows(dataParaRows);
+        setShowTable(true)
+        setCurrentPage(0);
+        setIsLoading(false);
+    
 
-    }, [dispatch]);
+}
 
-    console.log(currentTemp, feelsLike, weatherState)
+React.useEffect(() => {
+    setShowTable(true);
+}, [
+    currentPage
+])
+const handleSearchPaginado = (newPage) => {
 
+    console.log("paginado")
+}
 
-    //Envia info para resultado de pronostico extendido
-    const handleSubmit = (e) => {
+const handleLoading = (state) => {
+    setIsLoading(state)
+}
 
-        const dataExtendedForecast = {
-            data: dataNextDays
-        }
-
-        e.preventDefault()
-        // onSubmit(dataExtendedForecast);
-    };
-
-    return (
-        <Frame>
-            <Grid container
-                justify="space-around"
-                direction="column"
-                spacing={2}>
-                <Grid item container 
-                    xs={12} 
-                    justify="center"
-                    alignItems="flex-end">
-                        {
-                            city &&
-                            <Typography display="inline" variant="h4">{city}</Typography>
-                        }
-                </Grid>
-                <Grid container item xs={12}
-                    justify="center">
-                    <Grid container item
-                        direction="row"
-                        justify="center"
-                        alignItems="center"
-                        spacing={1}>
-                        <IconContext.Provider value={iconContextSize}>
-                            {
-                                weatherState ? 
-                                <IconState state="clouds" />
-                                :
-                                <Skeleton variant="circle" height={80} width={80}></Skeleton>
-                            }
-                        </IconContext.Provider>
-                        {
-                            currentTemp ? 
-                            <Typography display="inline" variant="h2">{currentTemp}</Typography>
-                            :
-                            <Skeleton variant="rect" height={80} width={80}></Skeleton>
-                        }
-                    </Grid>
-                    {
-                        humidity && feelsLike && 
-                        <>
-                            <Typography>Humedad: {humidity}%</Typography>
-                       
-                            <Typography>Sensación Térmica: {feelsLike}°</Typography>
-                        </>
-                    }
-                </Grid>
-                <Grid item
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    <SubmitButton
-                        name= "Ver próximos días"
-                        onClick={handleSubmit}
-                    />
-                </Grid>
-            </Grid>        
-        </Frame> 
-    );
+return (
+    <div>
+        <div className="search-card-wrapper">
+            <>
+                <ForecastPageComponent 
+                    onSubmit={handleSearchSubmit}
+                    rows={rows}
+                    // handleLoading={handleLoading}
+                    // isLoading={isLoading}
+                    showTable={showTable}
+                    totalResultados={totalResultados}
+                    onPageChange={handleSearchPaginado}
+                />
+            </>
+        </div>
+    </div>
+);
 }
 
 export default ForecastPage;

@@ -30,7 +30,7 @@ const Frame = ({ children }) => {
                         </Link>
                     </IconButton>
                     <Typography variant="h6" color="inherit">
-                        Clima Guru
+                        Clima Gurú
                     </Typography>
                 </Toolbar>
             </AppBar>

@@ -4,24 +4,21 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { IconContext } from 'react-icons'
-import IconState, { validValues } from '../../Icons/Icons'
+import IconState from '../../Icons/Icons'
 import {  SubmitButton } from "../../index";
 import { delegate } from '../../../delegate/delegate';
 import { store, actions, currentState } from '../../../WeatherContext';
-// import CancelButton from '../../Form/Buttons/CancelButton';
 
-// const useStylesBootstrap = makeStyles((theme) => ({
-//     arrow: {
-//         color: theme.palette.common.black,
-//     },
-//     tooltip: {
-//         backgroundColor: theme.palette.common.black,
-//         fontSize: "12px"
-//     },
-// }));
+const validValues = [
+    "clouds",
+    "clear",
+    "rain",
+    "snow",
+    "drizzle",
+    "thunderstorm"
+]
 
-
-function MainCardForecast({ onSubmit }) {
+function MainCardForecast({onSubmit}) {
 
     const { state, dispatch } = useContext(store);
     const iconContextSize = useMemo(() => ({ size:'6em'}), [])
@@ -49,7 +46,7 @@ function MainCardForecast({ onSubmit }) {
         "appid": "a79966a6ea68d0d7625eff5a328cc0bb",
     }
        delegate.getForecast(paramsForecast).then(data => {
-            console.log(data)
+            
             let dataForecast = data;
             
             setCurrentTemp(dataForecast.current.temp);
@@ -57,7 +54,7 @@ function MainCardForecast({ onSubmit }) {
             setHumidity(dataForecast.current.humidity);
             setDataNextDays(dataForecast.daily);
             setWeatherState(dataForecast.current.weather[0].main)
-            setCity("ejemp")
+            setCity(currentState.selectedCity.city)
 
         }).catch(error => {
             dispatch({ type: actions.ALERT_ERROR, payload: error });
@@ -65,8 +62,6 @@ function MainCardForecast({ onSubmit }) {
         });
 
     }, [dispatch]);
-
-    console.log(currentTemp, feelsLike, weatherState)
 
 
     //Envia info para resultado de pronostico extendido
@@ -83,25 +78,26 @@ function MainCardForecast({ onSubmit }) {
     return (
         <Frame>
             <Grid container
-                justify="space-around"
+                // justify="space-around"
                 direction="column"
-                spacing={2}>
+                spacing={1}>
                 <Grid item container 
                     xs={12} 
-                    justify="center"
+                    justifyContent="center"
                     alignItems="flex-end">
                         {
                             city &&
-                            <Typography display="inline" variant="h4">{city}, </Typography>
+                            <Typography display="inline" variant="h4">{city}</Typography>
                         }
                 </Grid>
-                <Grid container item xs={12}
-                    justify="center">
+                <Grid container item  spacing={1}
+                    justifyContent="center">
                     <Grid container item
+                        xs={12}
                         direction="row"
-                        justify="center"
+                        justifyContent="center"
                         alignItems="center"
-                        spacing={1}>
+                        >
                         <IconContext.Provider value={iconContextSize}>
                             {
                                 weatherState ? 
@@ -112,18 +108,44 @@ function MainCardForecast({ onSubmit }) {
                         </IconContext.Provider>
                         {
                             currentTemp ? 
-                            <Typography display="inline" variant="h2">{currentTemp}</Typography>
+                            <Typography display="inline" variant="h2">{currentTemp}°</Typography>
                             :
                             <Skeleton variant="rect" height={80} width={80}></Skeleton>
                         }
                     </Grid>
+                    <Grid item
+                    container
+                    xs={6}
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    //spacing={1}
+
+                    >
                     {
-                        humidity && feelsLike && 
-                        <>
-                            <Typography>Humedad: {humidity}%</Typography>
-                            <Typography>Sensación Térmica: {feelsLike}°</Typography>
-                        </>
+                        humidity ?
+                        <Typography>Humedad: {humidity}%</Typography>
+                        :
+                        <Skeleton variant="rect" height={80} width={80}></Skeleton>
                     }
+                    </Grid>
+                    <Grid item
+                    container
+                    xs={6}
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                   // spacing={1}
+
+                    >
+                    {
+                        feelsLike ?
+                        <Typography>Sensación Térmica: {feelsLike}°</Typography>
+                        :
+                        <Skeleton variant="rect" height={80} width={80}></Skeleton>
+
+                    }
+                    </Grid>
                 </Grid>
                 <Grid item
                     container
@@ -138,25 +160,7 @@ function MainCardForecast({ onSubmit }) {
                 </Grid>
             </Grid>        
         </Frame> 
-        // <div className="main-card-container">
-        //     <div className="main-card-inner-wrap">
-        //         <div className="form-row main-card-content-wrap">
-        //         <div className="col-md-6">
-        //                 <div className="main-forecast-card-align">
-        //                     <SubmitButton
-        //                         name="Próximos Días"
-        //                         onClick={handleSubmit}
-        //                     />
-        //                     {/* <CancelButton
-        //                         name="Limpiar"
-        //                         onClick={handleLimpiar}
-        //                     /> */}
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div>
-    )
+    );
 }
 
 export default MainCardForecast;

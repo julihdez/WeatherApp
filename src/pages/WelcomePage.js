@@ -62,7 +62,7 @@ function WelcomePage({}) {
         setCiudadSeleccionada(dataCiudadSeleccionada);
 
     };
- console.log(currentState)
+ 
     
  return (
         <WelcomePageComponent>
@@ -85,7 +85,7 @@ function WelcomePage({}) {
                             justify="center"
                             alignItems="center">
                             <Typography variant="h4" color="inherit">
-                                Clima Guru
+                                Clima Gurú
                             </Typography>
                         </Grid>
                         <Grid item
