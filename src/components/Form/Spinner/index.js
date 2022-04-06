@@ -9,7 +9,8 @@ function Loading() {
 		autoplay: true,
 		animationData: spinner,
 		rendererSettings: {
-		preserveAspectRatio: 'xMidYMid slice'
+		preserveAspectRatio: 'xMidYMid slice',
+        
 		}
 	};
 
@@ -19,6 +20,7 @@ function Loading() {
         <Lottie options={defaultOptions}
         height={400}
         width={400}
+        
         />
     </div>
         

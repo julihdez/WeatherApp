@@ -1,100 +1,78 @@
 import React, {useState, useEffect} from 'react';
 import {MainCardForecast, Loading, GenericTable, } from "../../";
 import { FaDownload } from "react-icons/fa";
-// import ActionButton from '../../Form/Buttons/ActionButton';
-import moment from 'moment'
-import 'moment/locale/es'
+import { store, actions, currentState } from '../../../WeatherContext';
+
 
 
 const headerCells = [
   {
     title: "Día",
     hasCaret: false,
-    key: "day"
+    key: "day",
+    isDay: true
   },
   {
     title: "Mínima",
     hasCaret: false,
-    key: "min"
+    key: "min",
+    isTemp: true
   },
   {
     title: "Máxima",
     hasCaret: false,
-    key: "max"
+    key: "max",
+    isTemp: true
   },
   {
     title: "",
     hasCaret: false,
-    key: "icon"
+    key: "icon",
+    isIcon: true
   },
 ]
 
-const fakeData = [{day:"dom",min: 12,max: 10,icon:"rain"}, {day:"dom",min: 12,max: 10,icon:"rain"},{day:"dom",min: 12,max: 10,icon:"rain"},{day:"dom",min: 12,max: 10,icon:"S"}]
-
-// weekDay: moment.unix(item.dt).format('dddd'),
-
 function ForecastPageComponent({
   onSubmit,
-  rows,
-  currentPage,
-  onPageChange,
-  
-  totalResultados
+  rows
 }) {
  
   const [dataParaRows, setDataParaRows] = useState([]);
-  const [showTable, setShowTable] = useState(false);
+  const isLoading = currentState.isLoading.isLoading
 
+  //recibe por props la info para poblar la tabla y la setea en un state 
   useEffect(() => {
-    // if(rows.data && rows.data.length > 0){
-    //   setDataParaRows(rows.data)
-    //   setShowTable(true)
-    // }
-    setDataParaRows(fakeData)
-    setShowTable(true)
+    if(rows){
+      setDataParaRows(rows)
+    }
 }, [
     rows
 ])
-  console.log(dataParaRows)
-  
 
-//   const actions = [
-//     {
-//       name: "Ver detalles",
-//       action: (selectedRow) => handleDetallesVC(selectedRow)
-//     }
-//   ];
 
   return (
-    <div className="forecast-page-wrapper">
-      <MainCardForecast
-        onSubmit={onSubmit}
-        // isLoading={isLoading}
-      />
-      {
-         showTable &&
-        <div className="tabs-container">
-          <div className="forecast-page-wrapper">
-            <div className="standar-spliter"></div>
-            <GenericTable
-              rows={dataParaRows}
-              headerCells={headerCells}
-              tableMaxWidth={300}
-              totalResultados={totalResultados}
-              currentPage={currentPage}
-              onPageChange={onPageChange}
-            />
+    <>
+      
+      <div className="forecast-page-wrapper">
+        <MainCardForecast
+          onSubmit={onSubmit}
+        />
+        {
+          !isLoading && 
+          <div className="tabs-container">
+            <div className="forecast-page-wrapper">
+                <GenericTable
+                  rows={dataParaRows}
+                  headerCells={headerCells}
+                  tableMaxWidth={300}
+                />
+            </div>
           </div>
-        </div>
+          
+        }
         
-      }
-      {/* {!isLoading && !openDetail && showTable && dataParaRows.length === 0 && alertaSinResultados &&
-        <p>No se encontraron resultados</p>
-      } */}
-      {/* {isLoading &&
-        <Loading />
-      } */}
-    </div>
+      </div>
+    </>
   )
 }
 

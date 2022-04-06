@@ -9,18 +9,13 @@
     --gris-4 : #CECECE;
     --gris-5 : #E9E9E9;
     --gris-6 : #F6F6F6;
-    --rojo-1 : #E4002B;
-    --rojo-2 : #D4002B;
-    --degradado-rojo : #fce8ed;
-    --naranja-secundario : #FF7D00;
-    --verde-secundario : #007A6E;
-    --amarillo-secundario : #FFBB24;
 
     --generic-width: 90%;
     --generic-font: "Roboto";
     --genetic-font-size : 12px;
 }
   .tabs-container{
+    padding-top: 35px;
     width: var(--generic-width);
     display: flex;
     justify-content: center;
@@ -67,31 +62,6 @@
     width: 15px;
     margin-right:15px;
     cursor: pointer;
-}
-
-.table-popover-container{
-    padding: 1rem;
-    width: fit-content;
-    font-family: var(--generic-font);
-    cursor: pointer;
-    font-size: 1.1rem;
-    border-radius: 10px;
-}
-
-.table-popover-option{
-    color:var(--gris-2);
-    padding: .5rem;
-    text-align: left;
-    border-bottom: 1px solid var(--gris-6);
-    font-size: var(--genetic-font-size);
-    width: fit-content;
-}
-
-.table-popover-option:last-child{
-   border-bottom: none;
-}
-.table-popover-option:hover{
-    opacity: 0.8;
 }
 
 .table-head-cell-caret-icon{

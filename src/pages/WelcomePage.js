@@ -10,22 +10,24 @@ import { IconContext } from 'react-icons'
 import { WiDayThunderstorm } from 'react-icons/wi'
 import { store, actions, currentState } from '../WeatherContext';
 
+const dataCiudades = [
+    { id: 1, descripcion: "Buenos Aires"}, 
+    { id: 2, descripcion: "Bogotá"}, 
+    { id: 3, descripcion: "Montevideo"}, 
+    { id: 4, descripcion: "Madrid" }, 
+    { id: 5, descripcion: "Miami" }, 
+    { id: 6, descripcion: "Lisboa" }
+]
 
 function WelcomePage({}) {
-
-    const [ciudadSeleccionada, setCiudadSeleccionada] = useState([]);
-    // const [ciudadLatitud, setCiudadLatitud] = useState([]);
-    // const [ciudadLongitud, setCiudadLongitud] = useState([]);
-
     const { state, dispatch } = useContext(store);
-
-    const dataCiudades = [{ id: 1, descripcion: "Buenos Aires"}, { id: 2, descripcion: "Bogotá"}, { id: 3, descripcion: "Montevideo"}, { id: 4, descripcion: "Madrid" }, { id: 5, descripcion: "Miami" }, { id: 5, descripcion: "Lisboa" }]
+    const [ciudadSeleccionada, setCiudadSeleccionada] = useState([]);
     const iconContextSize = useMemo(() => ({ size:'6em'}), [])
 
     
-
+//Llama al servicio Geocoding para traer las coordenadas de la ciudad seleccionada
     useEffect(() => {
-
+        dispatch({ type: actions.IS_LOADING, payload: true });
         const paramsCoordenadas = {
             "q":ciudadSeleccionada.descripcion,
             "limit":"1",
@@ -35,10 +37,6 @@ function WelcomePage({}) {
         delegate.getCoordenadas(paramsCoordenadas).then(data => {
             
             const ciudad = data[0];
-            
-            // setCiudadLatitud(ciudad.lat);
-            // setCiudadLongitud(ciudad.lon);
-
             if(ciudad !== null){
                 dispatch({ type: actions.SET_LAT, payload: ciudad.lat });
                 dispatch({ type: actions.SET_LON, payload: ciudad.lon });
@@ -52,6 +50,7 @@ function WelcomePage({}) {
         });
     },[ciudadSeleccionada, dispatch])
 
+//Setea la ciudad seleccionada 
     const handleChangeCiudad = (e) => {
 
         const targetEstadoSeleccionado = e.target.value;

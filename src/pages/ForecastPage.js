@@ -8,6 +8,8 @@ import { IconContext } from 'react-icons'
 import IconState  from '../components/Icons/Icons'
 import {  ForecastPageComponent, SubmitButton } from "../components/index"
 import { store, actions, currentState } from '../WeatherContext';
+import moment from 'moment'
+import 'moment/locale/es'
 
 function createData(
     day,
@@ -26,49 +28,28 @@ function createData(
 
 
 function ForecastPage() {
-const [isLoading, setIsLoading] = useState(false);
-const [showTable, setShowTable] = useState(false);
 const [rows, setRows] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
-const [totalResultados, setTotalResultados] = useState();
+
 
 const handleSearchSubmit = (e) => {
-    console.log(e)
-    setTotalResultados(e.total);
     const dataParaRows= e;
     let rows = [];
 
     dataParaRows.data.forEach((result) => {
+    
         rows.push(createData(
-            result.dt,
-            result.temp.min,
-            result.temp.max,
-            result.weather.main,
+            moment.unix(result.dt).format('dddd'),
+            result.temp.min + "°",
+            result.temp.max + "°",
+            result.weather[0].main ,
         ));
     }
     )
-
-        setRows(dataParaRows);
-        setShowTable(true)
-        setCurrentPage(0);
-        setIsLoading(false);
-    
+    setRows(rows);
 
 }
 
-React.useEffect(() => {
-    setShowTable(true);
-}, [
-    currentPage
-])
-const handleSearchPaginado = (newPage) => {
-
-    console.log("paginado")
-}
-
-const handleLoading = (state) => {
-    setIsLoading(state)
-}
 
 return (
     <div>
@@ -77,11 +58,6 @@ return (
                 <ForecastPageComponent 
                     onSubmit={handleSearchSubmit}
                     rows={rows}
-                    // handleLoading={handleLoading}
-                    // isLoading={isLoading}
-                    showTable={showTable}
-                    totalResultados={totalResultados}
-                    onPageChange={handleSearchPaginado}
                 />
             </>
         </div>

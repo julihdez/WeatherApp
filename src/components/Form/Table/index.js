@@ -1,8 +1,6 @@
-import React, { useState} from "react";
+import React, { useState, useMemo} from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { FaEllipsisV, FaCaretDown, FaAngleLeft, FaAngleRight } from "react-icons/fa";
-// import IconButton from '@material-ui/core/IconButton';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -10,8 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Popover from "@material-ui/core/Popover";
-import TablePagination from "@material-ui/core/TablePagination";
+import { IconContext } from 'react-icons';
+import IconState from '../../Icons/Icons';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { store, actions, currentState } from '../../../WeatherContext';
 
 
 
@@ -25,14 +25,6 @@ const useStyles = makeStyles({
     minWidth: 700,
     boxShadow: "none"
   },
-  paper: {
-    overflowX: "auto"
-  },
-  sticky: {
-    position: "sticky",
-    right: 0,
-    backgroundColor: "white"
-  }
 });
 
 const StyledTableCell = withStyles(() => ({
@@ -71,32 +63,14 @@ export default function GenericTable({
   rows,
   headerCells,
   tableMaxWidth,
-  hasActions,
-  actions,
-  totalResultados,
-  currentPage,
-  onPageChange
 }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedRow, setSelectedRow] = useState({});
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const iconContextSize = useMemo(() => ({ size:'6em'}), [])
+  const isLoading = currentState.isLoading.isLoading
 
-  const handleClick = (event, row) => {
-    setSelectedRow(row);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <>
@@ -121,11 +95,12 @@ export default function GenericTable({
                   style={{ tableLayout: "auto", width: "100%" }}
                 >
                   <TableHead>
-                    <TableRow>
-                      {headerCells.map((cell) => (
-                        <StyledTableCell align="right" >
-                          <div className="table-head-cell-caret-icon" style={{ textAlign: "center", lineHeight: "1.05" }}>
-                            <p>{cell.title}</p>
+                    <TableRow >
+                      {!isLoading &&
+                      headerCells.map((cell) => (
+                        <StyledTableCell style={{ align: "center" }}>
+                          <div className="table-head-cell-caret-icon" style={{ lineHeight: "1.05" }}>
+                            <p >{cell.title}</p>
                           </div>
                         </StyledTableCell>
 
@@ -134,7 +109,6 @@ export default function GenericTable({
                   </TableHead>
                   <TableBody>
                     {rows
-                      //sacar el rows
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -144,9 +118,23 @@ export default function GenericTable({
                           <TableRow key={row.name}>
                             {headerCells.map((i) => (
                               <>
+                              {
+                                i.isIcon &&
+                                <StyledTableCell align="center">
+                                  <IconContext.Provider value={iconContextSize}>
+                                      {
+                                           !isLoading  ? 
+                                          <IconState state= {row[i.key]}/>
+                                          :
+                                           <Skeleton variant="circle" height={80} width={80}></Skeleton>
+                                      }
+                                  </IconContext.Provider>
+                                </StyledTableCell> ||
                                 <StyledTableCell align="left">
                                   {row[i.key]}
                                 </StyledTableCell>
+                              }
+                                
                               </>
                             ))}
                           </TableRow>

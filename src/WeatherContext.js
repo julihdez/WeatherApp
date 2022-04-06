@@ -8,6 +8,7 @@ const actions = {
 	SET_LON: 'SET_LON',
 	SET_CITY: 'SET_CITY',
 	SET_COUNTRY: 'SET_COUNTRY',
+	IS_LOADING: 'IS_LOADING',
 }
 
 const initialState = {
@@ -24,6 +25,9 @@ const initialState = {
 		country:null
 	},
 	alert: {},
+	isLoading: {
+		isLoading: null
+	},
 	
 };
 
@@ -88,6 +92,14 @@ const StateProvider = ({ children }) => {
 					} 
 				}
 				break;
+				case actions.IS_LOADING:
+				newState = {
+					...state,
+					isLoading: {
+						isLoading: action.payload
+					} 
+				}
+				break;	
 			default:
 				throw new Error();
 		};

@@ -5,18 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { IconContext } from 'react-icons'
 import IconState from '../../Icons/Icons'
-import {  SubmitButton } from "../../index";
+import {  SubmitButton, Loading, } from "../../index";
 import { delegate } from '../../../delegate/delegate';
 import { store, actions, currentState } from '../../../WeatherContext';
 
-const validValues = [
-    "clouds",
-    "clear",
-    "rain",
-    "snow",
-    "drizzle",
-    "thunderstorm"
-]
 
 function MainCardForecast({onSubmit}) {
 
@@ -29,14 +21,13 @@ function MainCardForecast({onSubmit}) {
     const [dataNextDays, setDataNextDays] = useState([]);
     const [weatherState, setWeatherState] = useState([]);
     const [city, setCity] = useState([]);
-    // const [lat, setLat] = useState([]);
-    // const [lon, setLon] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     
     //Trae resultados de One Call API y los asigna a states
     useEffect(() => {
         const lat = currentState.selectedCityLat.latitud;
         const lon = currentState.selectedCityLon.longitud;
-        // const country = currentState.SelectedCity.country
     
     const paramsForecast = {
         "lat": lat,
@@ -48,39 +39,44 @@ function MainCardForecast({onSubmit}) {
        delegate.getForecast(paramsForecast).then(data => {
             
             let dataForecast = data;
-            
             setCurrentTemp(dataForecast.current.temp);
             setFeelsLike(dataForecast.current.feels_like);
             setHumidity(dataForecast.current.humidity);
             setDataNextDays(dataForecast.daily);
             setWeatherState(dataForecast.current.weather[0].main)
             setCity(currentState.selectedCity.city)
+            setIsLoading(false)
 
+            dispatch({ type: actions.IS_LOADING, payload: false });
+            
         }).catch(error => {
             dispatch({ type: actions.ALERT_ERROR, payload: error });
             
         });
 
     }, [dispatch]);
-
-
+    
     //Envia info para resultado de pronostico extendido
     const handleSubmit = (e) => {
 
         const dataExtendedForecast = {
             data: dataNextDays
         }
-
-        e.preventDefault()
         onSubmit(dataExtendedForecast);
     };
 
     return (
         <Frame>
-            <Grid container
+            {isLoading &&
+                <Loading />
+            }
+            {!isLoading &&
+                <Grid container
                 // justify="space-around"
                 direction="column"
-                spacing={1}>
+                spacing={1}
+                justifyContent="center"
+                >
                 <Grid item container 
                     xs={12} 
                     justifyContent="center"
@@ -100,8 +96,8 @@ function MainCardForecast({onSubmit}) {
                         >
                         <IconContext.Provider value={iconContextSize}>
                             {
-                                weatherState ? 
-                                <IconState state="clouds" />
+                                weatherState ?
+                                <IconState state={weatherState}/>
                                 :
                                 <Skeleton variant="circle" height={80} width={80}></Skeleton>
                             }
@@ -115,32 +111,19 @@ function MainCardForecast({onSubmit}) {
                     </Grid>
                     <Grid item
                     container
-                    xs={6}
                     direction="row"
                     justifyContent="center"
-                    alignItems="center"
-                    //spacing={1}
-
                     >
                     {
                         humidity ?
-                        <Typography>Humedad: {humidity}%</Typography>
+                        <Typography style={{color: "gray", paddingRight: "25px"}} 
+                       >Humedad:{humidity}%</Typography>
                         :
                         <Skeleton variant="rect" height={80} width={80}></Skeleton>
                     }
-                    </Grid>
-                    <Grid item
-                    container
-                    xs={6}
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                   // spacing={1}
-
-                    >
                     {
                         feelsLike ?
-                        <Typography>Sensación Térmica: {feelsLike}°</Typography>
+                        <Typography style={{color: "gray", paddingleft: "25px"}}>Sensación Térmica:{feelsLike}°</Typography>
                         :
                         <Skeleton variant="rect" height={80} width={80}></Skeleton>
 
@@ -154,11 +137,12 @@ function MainCardForecast({onSubmit}) {
                     alignItems="center"
                 >
                     <SubmitButton
-                        name= "Ver próximos días"
+                        name= "Ver próximos 7 días"
                         onClick={handleSubmit}
                     />
                 </Grid>
-            </Grid>        
+            </Grid>    
+            }    
         </Frame> 
     );
 }

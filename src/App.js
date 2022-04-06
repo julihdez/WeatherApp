@@ -4,8 +4,7 @@ import { BrowserRouter as Router,
     Route } from 'react-router-dom'
 import WelcomePage from '../src/pages/WelcomePage'
 import ForecastPage from '../src/pages/ForecastPage'
-// import NotFoundPage from './pages/NotFoundPage'
-// import { store } from './WeatherContext'
+
 
 
 const App = () => {
@@ -16,8 +15,6 @@ const App = () => {
                     <Route path="/" element={<WelcomePage />} />
 
                     <Route path="/clima" element={<ForecastPage />}/>
-
-                    {/* <Route path="*" element={<NotFoundPage />}/> */}
                                                       
                 </Routes>
             </Router>

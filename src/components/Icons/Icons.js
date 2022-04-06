@@ -1,4 +1,5 @@
 import React from 'react'
+import { store, actions, currentState } from '../../WeatherContext';
 import { WiDayCloudy,
     WiDaySunny,
     WiRain,
@@ -6,26 +7,38 @@ import { WiDayCloudy,
     WiRaindrop,
     WiThunderstorm } from 'react-icons/wi'
    
+function Icons  ({state}) {
 
-function Icons  ({ state }) {
+    const validValues = [
+        "Clouds",
+        "Clear",
+        "Rain",
+        "Snow",
+        "Drizzle",
+        "Thunderstorm"
+    ]
+
     const stateByName = {
-        clouds: WiDayCloudy,
-        clear: WiDaySunny,
-        rain: WiRain,
-        snow: WiSnow, 
-        drizzle: WiRaindrop,
-        thunderstorm: WiThunderstorm
+        Clouds: WiDayCloudy,
+        Clear: WiDaySunny,
+        Rain: WiRain,
+        Snow: WiSnow, 
+        Drizzle: WiRaindrop,
+        Thunderstorm: WiThunderstorm
     }
 
-    const StateByName = stateByName[state]
+    if(validValues.includes(state)){
+        const StateByName = stateByName[state]
+        return (
+            <StateByName />
+        )
+    }else{
+        const StateByName = stateByName.Clouds
+        return (
+            <StateByName />
+        )
+    }
     
-    return (
-        <StateByName />
-    )
 }
-
-// IconState.propTypes = {
-//     state: PropTypes.oneOf(validValues).isRequired,
-// }
 
 export default Icons
