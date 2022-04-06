@@ -29,31 +29,40 @@ const useStyles = makeStyles({
 
 const StyledTableCell = withStyles(() => ({
   head: {
-    color: "black",
+    color: "white",
     fontFamily: "Roboto",
     fontWeight: "bold",
-    backgroundColor: "white",
     fontSize: "12px",
     zIndex: 0,
+    backgroundColor: "#23569170",
   },
   body: {
-    color: "gray",
+    color: "white",
     fontFamily: "Roboto",
     fontSize: "12px",
+    backgroundColor: "#23569170",
+    opacity: "0.5em",
   }
 }))(TableCell);
 
 const theme = createTheme({
   overrides: {
     MuiTableCell: {
+      
       root: {
-        paddingTop: 4,
+         paddingTop: 4,
         paddingBottom: 4,
         "&:last-child": {
           paddingRight: 5
         }
       }
-    }
+    },
+    // MuiTableContainer:{
+    //   root: {
+    //     backgroundColor: "#23569170",
+    //     opacity: "1em"
+    //   }
+    // }
   }
 });
 

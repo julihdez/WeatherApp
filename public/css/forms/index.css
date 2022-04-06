@@ -3,14 +3,8 @@
 */
 
 :root {
-    --gris-1 : #363636;
-    --gris-2 : #666666;
-    --gris-3 : #797979;
-    --gris-4 : #CECECE;
-    --gris-5 : #E9E9E9;
-    --gris-6 : #F6F6F6;
-    --rojo-1 : #E4002B;
-    --rojo-2 : #D4002B;
+    --azul-1 : rgb(34, 53, 116);
+  
 
     --generic-width: 80%;
     --generic-font: "Roboto";
@@ -153,12 +147,13 @@ input{
     width: 90px;
     height:30px;
     color: white;
+    margin-top:"15px";
   
     
     font-family: var(--generic-font);
     transition: all .3s ease;
     font-size: var(--genetic-font-size);
-    opacity: .9;
+    opacity: .7;
     border-radius: 4px;
 }
 

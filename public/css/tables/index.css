@@ -3,18 +3,16 @@
 */
 
 :root {
-    --gris-1 : #363636;
-    --gris-2 : #666666;
-    --gris-3 : #797979;
-    --gris-4 : #CECECE;
-    --gris-5 : #E9E9E9;
-    --gris-6 : #F6F6F6;
 
     --generic-width: 90%;
     --generic-font: "Roboto";
     --genetic-font-size : 12px;
 }
   .tabs-container{
+    background-image:url(../../images/Depositphotos_324676878_S.jpg);
+    background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     padding-top: 35px;
     width: var(--generic-width);
     display: flex;

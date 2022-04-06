@@ -51,28 +51,24 @@ function ForecastPageComponent({
 
 
   return (
-    <>
-      
-      <div className="forecast-page-wrapper">
-        <MainCardForecast
-          onSubmit={onSubmit}
-        />
+    <div className="forecast-page-wrapper">
+      <MainCardForecast
+        onSubmit={onSubmit}
+      />
+        <div className="forecast-table-wrapper">
         {
           !isLoading && 
-          <div className="tabs-container">
-            <div className="forecast-page-wrapper">
+            
                 <GenericTable
                   rows={dataParaRows}
                   headerCells={headerCells}
                   tableMaxWidth={300}
                 />
-            </div>
-          </div>
-          
+            
         }
-        
-      </div>
-    </>
+        </div>
+    </div>
+    
   )
 }
 

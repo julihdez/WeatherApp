@@ -3,12 +3,6 @@
 */
 
 :root {
-    --gris-1 : #363636;
-    --gris-2 : #666666;
-    --gris-3 : #797979;
-    --gris-4 : #CECECE;
-    --gris-5 : #E9E9E9;
-    --gris-6 : #F6F6F6;
 
     --generic-width: 98%;
     --generic-font: "Roboto";
@@ -23,22 +17,24 @@
 }
 
 .forecast-page-wrapper{
+    background-image:url(../../images/Depositphotos_324676878_S.jpg);
+    background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     width:100%;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction: column;
 }
+.forecast-table-wrapper{
+    width:60%;
 
-.standar-spliter{
+}
+
+/* .standar-spliter{
     width: 95%;
     height: 10px;
     border-bottom: 1px var(--gris-5) solid;
-}
+} */
 
-.table-container-action-button{
-    display: flex; 
-    justify-content:center;
-    align-items:center;
-    flex-direction: column
-}

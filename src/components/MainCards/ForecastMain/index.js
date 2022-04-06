@@ -71,77 +71,80 @@ function MainCardForecast({onSubmit}) {
                 <Loading />
             }
             {!isLoading &&
-                <Grid container
-                // justify="space-around"
-                direction="column"
-                spacing={1}
-                justifyContent="center"
-                >
-                <Grid item container 
-                    xs={12} 
-                    justifyContent="center"
-                    alignItems="flex-end">
-                        {
-                            city &&
-                            <Typography display="inline" variant="h3" >{city}</Typography>
-                        }
-                </Grid>
-                <Grid container item  spacing={1}
-                    justifyContent="center">
-                    <Grid container item
-                        xs={12}
-                        direction="row"
+            <div className="main-wrap">
+                <div className = "cardContainer">
+                    <Grid 
+                        // item container 
+                        // xs={12} 
                         justifyContent="center"
                         alignItems="center"
+                        
                         >
-                        <IconContext.Provider value={iconContextSize}>
                             {
-                                weatherState ?
-                                <IconState state={weatherState}/>
-                                :
-                                <Skeleton variant="circle" height={80} width={80}></Skeleton>
+                                city &&
+                                <Typography display="inline" variant="h3" >{city}</Typography>
                             }
-                        </IconContext.Provider>
+                    </Grid>
+                    <Grid container item 
+                        // spacing={1}
+                        justifyContent="center"
+                        >
+                        <Grid container item
+                            // xs={12}
+                            // direction="row"
+                            justifyContent="center"
+                            // alignItems="center"
+                            >
+                            <IconContext.Provider value={iconContextSize}>
+                                {
+                                    weatherState ?
+                                    <IconState state={weatherState}/>
+                                    :
+                                    <Skeleton variant="circle" height={80} width={80}></Skeleton>
+                                }
+                            </IconContext.Provider>
+                            {
+                                currentTemp ? 
+                                <Typography display="inline" variant="h2">{currentTemp}°</Typography>
+                                :
+                                <Skeleton variant="rect" height={80} width={80}></Skeleton>
+                            }
+                        </Grid>
+                        <Grid item
+                        container
+                        margin= "5px"
+                        justifyContent="center"
+                        >
                         {
-                            currentTemp ? 
-                            <Typography display="inline" variant="h2">{currentTemp}°</Typography>
+                            humidity ?
+                            <Typography style={{ paddingRight: "25px", fontWeight:"bold"}} >Humedad:{humidity}%</Typography>
                             :
                             <Skeleton variant="rect" height={80} width={80}></Skeleton>
                         }
-                    </Grid>
-                    <Grid item
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    >
-                    {
-                        humidity ?
-                        <Typography style={{color: "gray", paddingRight: "25px", fontWeight:"bold"}} 
-                       >Humedad:{humidity}%</Typography>
-                        :
-                        <Skeleton variant="rect" height={80} width={80}></Skeleton>
-                    }
-                    {
-                        feelsLike ?
-                        <Typography style={{color: "gray", paddingleft: "25px", fontWeight:"bold"}}>Sensación Térmica:{feelsLike}°</Typography>
-                        :
-                        <Skeleton variant="rect" height={80} width={80}></Skeleton>
+                        {
+                            feelsLike ?
+                            <Typography style={{ paddingleft: "25px", fontWeight:"bold"}}>Sensación Térmica:{feelsLike}°</Typography>
+                            :
+                            <Skeleton variant="rect" height={80} width={80}></Skeleton>
 
-                    }
+                        }
+                        </Grid>
+                        <Grid item
+                            direction="column"
+                            justify="center"
+                            alignItems="center"
+                            
+                            
+                        >
+                            <SubmitButton
+                                name= "Ver próximos 7 días"
+                                onClick={handleSubmit}
+                            />
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid item
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    <SubmitButton
-                        name= "Ver próximos 7 días"
-                        onClick={handleSubmit}
-                    />
-                </Grid>
-            </Grid>    
+                    
+                </div>
+            </div>    
             }    
         </Frame> 
     );
