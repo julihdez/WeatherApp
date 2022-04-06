@@ -11,10 +11,6 @@ Then
 npm start
 
 
-API
-
-This project uses the OpenWeather API. The API Key is exported in a .env.
-
 
 Demo
 ![image](https://user-images.githubusercontent.com/54121653/162003015-dcf9decf-cd0c-4ee7-aea8-55ba0cdeec68.png)
