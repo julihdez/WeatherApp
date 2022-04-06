@@ -83,7 +83,7 @@ function MainCardForecast({onSubmit}) {
                     alignItems="flex-end">
                         {
                             city &&
-                            <Typography display="inline" variant="h4">{city}</Typography>
+                            <Typography display="inline" variant="h3" >{city}</Typography>
                         }
                 </Grid>
                 <Grid container item  spacing={1}
@@ -116,14 +116,14 @@ function MainCardForecast({onSubmit}) {
                     >
                     {
                         humidity ?
-                        <Typography style={{color: "gray", paddingRight: "25px"}} 
+                        <Typography style={{color: "gray", paddingRight: "25px", fontWeight:"bold"}} 
                        >Humedad:{humidity}%</Typography>
                         :
                         <Skeleton variant="rect" height={80} width={80}></Skeleton>
                     }
                     {
                         feelsLike ?
-                        <Typography style={{color: "gray", paddingleft: "25px"}}>Sensación Térmica:{feelsLike}°</Typography>
+                        <Typography style={{color: "gray", paddingleft: "25px", fontWeight:"bold"}}>Sensación Térmica:{feelsLike}°</Typography>
                         :
                         <Skeleton variant="rect" height={80} width={80}></Skeleton>
 
